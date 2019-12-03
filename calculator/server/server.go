@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math"
 	"net"
 	"time"
 
@@ -60,6 +61,29 @@ func (*server) Average(stream calculatorpb.CalculatorService_AverageServer) erro
 		}
 		sum += msg.GetNumber()
 		n++
+	}
+}
+
+func (*server) Maximum(stream calculatorpb.CalculatorService_MaximumServer) error {
+	fmt.Println("Maximum Service was Invoked")
+	max := int32(math.Inf(-1))
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			log.Fatalf("Error on Streaming %v\n", err)
+		}
+		if req.GetNumber() > max {
+			max = req.GetNumber()
+			sentErr := stream.Send(&calculatorpb.MaximumResponse{
+				Max: max,
+			})
+			if sentErr != nil {
+				log.Fatalf("Error on Streaming Data to Client%v\n", sentErr)
+			}
+		}
 	}
 }
 

@@ -27,7 +27,8 @@ func main() {
 
 	//doUnary(c)
 	//doStreaming(c)
-	doClientStreaming(c)
+	//doClientStreaming(c)
+	doBidirectionalStreaming(c)
 
 }
 
@@ -105,4 +106,61 @@ func doClientStreaming(c calculatorpb.CalculatorServiceClient) {
 		log.Fatalf("Error on Client Streaming %v\n", err)
 	}
 	log.Printf("Average is %v\n", msg.GetAverage())
+}
+
+func doBidirectionalStreaming(c calculatorpb.CalculatorServiceClient) {
+	fmt.Println("Calling Bidirectional RPC")
+	//1,5,3,6,2,20
+	requests := []*calculatorpb.MaximumRequest{
+		&calculatorpb.MaximumRequest{
+			Number: 1,
+		},
+		&calculatorpb.MaximumRequest{
+			Number: 5,
+		},
+		&calculatorpb.MaximumRequest{
+			Number: 3,
+		},
+		&calculatorpb.MaximumRequest{
+			Number: 6,
+		},
+		&calculatorpb.MaximumRequest{
+			Number: 2,
+		},
+		&calculatorpb.MaximumRequest{
+			Number: 20,
+		},
+	}
+	waitChannel := make(chan struct{})
+
+	stream, err := c.Maximum(context.Background())
+	if err != nil {
+		log.Fatalf("Error on Streaming %v\n", err)
+	}
+
+	go func() {
+		for _, req := range requests {
+			fmt.Printf("Sending Request to the Server %v\n", req)
+			stream.Send(req)
+			time.Sleep(1 * time.Second)
+		}
+		stream.CloseSend()
+	}()
+
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalf("Error on Bidirectional Streaming %v\n", err)
+				break
+			}
+			log.Printf("Message Received from Server %v\n", res.GetMax())
+		}
+		close(waitChannel)
+	}()
+
+	<-waitChannel
 }

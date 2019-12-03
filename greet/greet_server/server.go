@@ -74,7 +74,7 @@ func (*server) GreetEveryone(stream greetpb.GreetService_GreetEveryoneServer) er
 		})
 
 		if sentErr != nil {
-			log.Fatalf("Error on Streaming Data to Client%v\n", err)
+			log.Fatalf("Error on Streaming Data to Client%v\n", sentErr)
 		}
 	}
 }
