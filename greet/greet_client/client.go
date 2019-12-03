@@ -26,7 +26,8 @@ func main() {
 
 	//doUnary(c)
 	//doServerStreaming(c)
-	doClientStreaming(c)
+	//doClientStreaming(c)
+	doBidirectionalStreaming(c)
 
 }
 
@@ -119,4 +120,67 @@ func doClientStreaming(c greetpb.GreetServiceClient) {
 		log.Fatalf("Error on Streaming %v\n", err)
 	}
 	log.Printf("Response from Server: %v", msg.GetResult())
+}
+
+func doBidirectionalStreaming(c greetpb.GreetServiceClient) {
+	fmt.Println("Starting BiDirectional Streaming")
+	requests := []*greetpb.GreetEveryoneRequest{
+		&greetpb.GreetEveryoneRequest{
+			Greeting: &greetpb.Greeting{
+				FirstName: "Nestor",
+			},
+		},
+		&greetpb.GreetEveryoneRequest{
+			Greeting: &greetpb.Greeting{
+				FirstName: "Ramon",
+			},
+		},
+		&greetpb.GreetEveryoneRequest{
+			Greeting: &greetpb.Greeting{
+				FirstName: "Escoto",
+			},
+		},
+		&greetpb.GreetEveryoneRequest{
+			Greeting: &greetpb.Greeting{
+				FirstName: "Padilla",
+			},
+		},
+		&greetpb.GreetEveryoneRequest{
+			Greeting: &greetpb.Greeting{
+				FirstName: "Otro",
+			},
+		},
+	}
+	stream, err := c.GreetEveryone(context.Background())
+	if err != nil {
+		log.Fatalf("Error on Streaming %v\n", err)
+	}
+
+	waitChannel := make(chan struct{})
+
+	go func() {
+		for _, req := range requests {
+			fmt.Printf("Sending Request to the Server %v\n", req)
+			stream.Send(req)
+			time.Sleep(1 * time.Second)
+		}
+		stream.CloseSend()
+	}()
+
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalf("Error on Bidirectional Streaming %v\n", err)
+				break
+			}
+			log.Printf("Message Received from Server %v\n", res.GetResult())
+		}
+		close(waitChannel)
+	}()
+
+	<-waitChannel
 }
