@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	"github.com/nestor94/grpc-go/calculator/calculatorpb"
 	"google.golang.org/grpc"
@@ -21,6 +22,25 @@ func (*server) Calculate(ctx context.Context, req *calculatorpb.CalculatorReques
 		Result: result,
 	}
 	return res, nil
+}
+
+func (*server) PrimeDecomposition(req *calculatorpb.PrimeDecompositionRequest, stream calculatorpb.CalculatorService_PrimeDecompositionServer) error {
+	fmt.Printf("Prime Decomposition Service Invoked %v\n", req)
+	n := req.GetPrimeNumber().GetNumber()
+	var k int32 = 2
+	for n > 1 {
+		if n%k == 0 {
+			res := &calculatorpb.PrimeDecompositionResponse{
+				Factor: k,
+			}
+			stream.Send(res)
+			n = n / k
+			time.Sleep(1 * time.Second)
+		} else {
+			k++
+		}
+	}
+	return nil
 }
 
 func main() {

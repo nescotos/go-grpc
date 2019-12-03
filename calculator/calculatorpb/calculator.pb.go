@@ -71,6 +71,123 @@ func (m *Calculator) GetSecondNumber() int32 {
 	return 0
 }
 
+type PrimeNumber struct {
+	Number               int32    `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *PrimeNumber) Reset()         { *m = PrimeNumber{} }
+func (m *PrimeNumber) String() string { return proto.CompactTextString(m) }
+func (*PrimeNumber) ProtoMessage()    {}
+func (*PrimeNumber) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7f42938f8c8365cf, []int{1}
+}
+
+func (m *PrimeNumber) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PrimeNumber.Unmarshal(m, b)
+}
+func (m *PrimeNumber) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PrimeNumber.Marshal(b, m, deterministic)
+}
+func (m *PrimeNumber) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrimeNumber.Merge(m, src)
+}
+func (m *PrimeNumber) XXX_Size() int {
+	return xxx_messageInfo_PrimeNumber.Size(m)
+}
+func (m *PrimeNumber) XXX_DiscardUnknown() {
+	xxx_messageInfo_PrimeNumber.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PrimeNumber proto.InternalMessageInfo
+
+func (m *PrimeNumber) GetNumber() int32 {
+	if m != nil {
+		return m.Number
+	}
+	return 0
+}
+
+type PrimeDecompositionRequest struct {
+	PrimeNumber          *PrimeNumber `protobuf:"bytes,1,opt,name=prime_number,json=primeNumber,proto3" json:"prime_number,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
+}
+
+func (m *PrimeDecompositionRequest) Reset()         { *m = PrimeDecompositionRequest{} }
+func (m *PrimeDecompositionRequest) String() string { return proto.CompactTextString(m) }
+func (*PrimeDecompositionRequest) ProtoMessage()    {}
+func (*PrimeDecompositionRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7f42938f8c8365cf, []int{2}
+}
+
+func (m *PrimeDecompositionRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PrimeDecompositionRequest.Unmarshal(m, b)
+}
+func (m *PrimeDecompositionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PrimeDecompositionRequest.Marshal(b, m, deterministic)
+}
+func (m *PrimeDecompositionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrimeDecompositionRequest.Merge(m, src)
+}
+func (m *PrimeDecompositionRequest) XXX_Size() int {
+	return xxx_messageInfo_PrimeDecompositionRequest.Size(m)
+}
+func (m *PrimeDecompositionRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_PrimeDecompositionRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PrimeDecompositionRequest proto.InternalMessageInfo
+
+func (m *PrimeDecompositionRequest) GetPrimeNumber() *PrimeNumber {
+	if m != nil {
+		return m.PrimeNumber
+	}
+	return nil
+}
+
+type PrimeDecompositionResponse struct {
+	Factor               int32    `protobuf:"varint,1,opt,name=factor,proto3" json:"factor,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *PrimeDecompositionResponse) Reset()         { *m = PrimeDecompositionResponse{} }
+func (m *PrimeDecompositionResponse) String() string { return proto.CompactTextString(m) }
+func (*PrimeDecompositionResponse) ProtoMessage()    {}
+func (*PrimeDecompositionResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7f42938f8c8365cf, []int{3}
+}
+
+func (m *PrimeDecompositionResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PrimeDecompositionResponse.Unmarshal(m, b)
+}
+func (m *PrimeDecompositionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PrimeDecompositionResponse.Marshal(b, m, deterministic)
+}
+func (m *PrimeDecompositionResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrimeDecompositionResponse.Merge(m, src)
+}
+func (m *PrimeDecompositionResponse) XXX_Size() int {
+	return xxx_messageInfo_PrimeDecompositionResponse.Size(m)
+}
+func (m *PrimeDecompositionResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_PrimeDecompositionResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PrimeDecompositionResponse proto.InternalMessageInfo
+
+func (m *PrimeDecompositionResponse) GetFactor() int32 {
+	if m != nil {
+		return m.Factor
+	}
+	return 0
+}
+
 type CalculatorRequest struct {
 	Calculator           *Calculator `protobuf:"bytes,1,opt,name=calculator,proto3" json:"calculator,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
@@ -82,7 +199,7 @@ func (m *CalculatorRequest) Reset()         { *m = CalculatorRequest{} }
 func (m *CalculatorRequest) String() string { return proto.CompactTextString(m) }
 func (*CalculatorRequest) ProtoMessage()    {}
 func (*CalculatorRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7f42938f8c8365cf, []int{1}
+	return fileDescriptor_7f42938f8c8365cf, []int{4}
 }
 
 func (m *CalculatorRequest) XXX_Unmarshal(b []byte) error {
@@ -121,7 +238,7 @@ func (m *CalculatorResponse) Reset()         { *m = CalculatorResponse{} }
 func (m *CalculatorResponse) String() string { return proto.CompactTextString(m) }
 func (*CalculatorResponse) ProtoMessage()    {}
 func (*CalculatorResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7f42938f8c8365cf, []int{2}
+	return fileDescriptor_7f42938f8c8365cf, []int{5}
 }
 
 func (m *CalculatorResponse) XXX_Unmarshal(b []byte) error {
@@ -151,6 +268,9 @@ func (m *CalculatorResponse) GetResult() int32 {
 
 func init() {
 	proto.RegisterType((*Calculator)(nil), "calculator.Calculator")
+	proto.RegisterType((*PrimeNumber)(nil), "calculator.PrimeNumber")
+	proto.RegisterType((*PrimeDecompositionRequest)(nil), "calculator.PrimeDecompositionRequest")
+	proto.RegisterType((*PrimeDecompositionResponse)(nil), "calculator.PrimeDecompositionResponse")
 	proto.RegisterType((*CalculatorRequest)(nil), "calculator.CalculatorRequest")
 	proto.RegisterType((*CalculatorResponse)(nil), "calculator.CalculatorResponse")
 }
@@ -160,21 +280,26 @@ func init() {
 }
 
 var fileDescriptor_7f42938f8c8365cf = []byte{
-	// 209 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xe2, 0xd2, 0x48, 0x4e, 0xcc, 0x49,
-	0x2e, 0xcd, 0x49, 0x2c, 0xc9, 0x2f, 0xd2, 0x47, 0x30, 0x0b, 0x92, 0x90, 0x38, 0x7a, 0x05, 0x45,
-	0xf9, 0x25, 0xf9, 0x42, 0x5c, 0x08, 0x11, 0xa5, 0x10, 0x2e, 0x2e, 0x67, 0x38, 0x4f, 0x48, 0x91,
-	0x8b, 0x27, 0x2d, 0xb3, 0xa8, 0xb8, 0x24, 0x3e, 0xaf, 0x34, 0x37, 0x29, 0xb5, 0x48, 0x82, 0x51,
-	0x81, 0x51, 0x83, 0x35, 0x88, 0x1b, 0x2c, 0xe6, 0x07, 0x16, 0x12, 0x52, 0xe6, 0xe2, 0x2d, 0x4e,
-	0x4d, 0xce, 0xcf, 0x4b, 0x81, 0xa9, 0x61, 0x02, 0xab, 0xe1, 0x81, 0x08, 0x42, 0x14, 0x29, 0x79,
-	0x73, 0x09, 0x22, 0x4c, 0x0d, 0x4a, 0x2d, 0x2c, 0x4d, 0x2d, 0x2e, 0x11, 0x32, 0xe3, 0x42, 0xb2,
-	0x18, 0x6c, 0x34, 0xb7, 0x91, 0x98, 0x1e, 0x92, 0xeb, 0x90, 0xb4, 0x20, 0x3b, 0x51, 0x87, 0x4b,
-	0x08, 0xd9, 0xb0, 0xe2, 0x82, 0xfc, 0xbc, 0xe2, 0x54, 0x21, 0x31, 0x2e, 0xb6, 0xa2, 0xd4, 0xe2,
-	0xd2, 0x9c, 0x12, 0xa8, 0x23, 0xa1, 0x3c, 0xa3, 0x44, 0x64, 0xab, 0x83, 0x53, 0x8b, 0xca, 0x32,
-	0x93, 0x53, 0x85, 0x7c, 0xb8, 0x38, 0x61, 0x82, 0xa9, 0x42, 0xb2, 0x38, 0xec, 0x84, 0x38, 0x53,
-	0x4a, 0x0e, 0x97, 0x34, 0xc4, 0x62, 0x25, 0x06, 0x27, 0xbe, 0x28, 0x1e, 0xe4, 0x00, 0x4e, 0x62,
-	0x03, 0x07, 0xab, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0xb4, 0x8e, 0x2f, 0x9f, 0x82, 0x01, 0x00,
-	0x00,
+	// 300 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x84, 0x52, 0xc1, 0x4a, 0xc4, 0x30,
+	0x14, 0xb4, 0x82, 0x0b, 0xbe, 0x56, 0xc1, 0x1c, 0x56, 0x2d, 0x28, 0x1a, 0x59, 0xd9, 0x83, 0xac,
+	0xb2, 0x8a, 0x07, 0x8f, 0xea, 0x4d, 0x11, 0xa9, 0x82, 0xe0, 0x45, 0xda, 0xfa, 0x56, 0x0a, 0x6d,
+	0x13, 0x93, 0xd4, 0x8f, 0xf4, 0xab, 0xdc, 0x6d, 0x1a, 0xf3, 0x64, 0x77, 0xf1, 0xd6, 0x99, 0xcc,
+	0x7b, 0x33, 0x9d, 0x04, 0x86, 0x79, 0x5a, 0xe6, 0x4d, 0x99, 0x1a, 0xa1, 0x4e, 0xfd, 0xa7, 0xcc,
+	0x08, 0x18, 0x49, 0x25, 0x8c, 0x60, 0xe0, 0x19, 0xfe, 0x0c, 0x70, 0xf3, 0x8b, 0xd8, 0x21, 0x44,
+	0x93, 0x42, 0x69, 0xf3, 0x56, 0x37, 0x55, 0x86, 0x6a, 0x27, 0x38, 0x08, 0x86, 0x6b, 0x49, 0xd8,
+	0x72, 0x0f, 0x2d, 0xc5, 0x8e, 0x60, 0x43, 0x63, 0x2e, 0xea, 0x77, 0xa7, 0x59, 0x6d, 0x35, 0x91,
+	0x25, 0xad, 0x88, 0x0f, 0x20, 0x7c, 0x54, 0x45, 0x85, 0xdd, 0x4c, 0x1f, 0x7a, 0x7f, 0x16, 0x76,
+	0x88, 0xbf, 0xc0, 0x6e, 0x2b, 0xbb, 0x9d, 0xce, 0x56, 0x52, 0xe8, 0xc2, 0x14, 0xa2, 0x4e, 0xf0,
+	0xb3, 0x41, 0x6d, 0xd8, 0x15, 0x44, 0x72, 0x76, 0x48, 0xb3, 0x84, 0xe3, 0xed, 0x11, 0xf9, 0x1d,
+	0xe2, 0x91, 0x84, 0xd2, 0x03, 0x7e, 0x01, 0xf1, 0xa2, 0xc5, 0x5a, 0x8a, 0x5a, 0xe3, 0x2c, 0xce,
+	0x24, 0xcd, 0xa7, 0x0b, 0x5c, 0x1c, 0x8b, 0xf8, 0x1d, 0x6c, 0xf9, 0x2e, 0x5c, 0x8c, 0x4b, 0x20,
+	0x75, 0x75, 0x21, 0xfa, 0x34, 0x04, 0x19, 0xa1, 0xc5, 0x9e, 0x00, 0xa3, 0xcb, 0xbc, 0xb5, 0x42,
+	0xdd, 0x94, 0xc6, 0x59, 0x5b, 0x34, 0xfe, 0x0e, 0xa8, 0xf7, 0x13, 0xaa, 0xaf, 0x22, 0x47, 0x76,
+	0x0f, 0xeb, 0x8e, 0x44, 0xb6, 0xb7, 0xc4, 0xd4, 0xe6, 0x8c, 0xf7, 0x97, 0x1d, 0x5b, 0x67, 0xbe,
+	0xc2, 0x3e, 0x80, 0xcd, 0x97, 0xc2, 0x06, 0x73, 0x85, 0x2e, 0xba, 0x8d, 0xf8, 0xf8, 0x3f, 0x99,
+	0xb3, 0x39, 0x0b, 0xae, 0x37, 0x5f, 0x23, 0xfa, 0x00, 0xb3, 0x5e, 0xfb, 0xec, 0xce, 0x7f, 0x02,
+	0x00, 0x00, 0xff, 0xff, 0xcd, 0x5e, 0xdb, 0x91, 0xa2, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -190,6 +315,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type CalculatorServiceClient interface {
 	Calculate(ctx context.Context, in *CalculatorRequest, opts ...grpc.CallOption) (*CalculatorResponse, error)
+	PrimeDecomposition(ctx context.Context, in *PrimeDecompositionRequest, opts ...grpc.CallOption) (CalculatorService_PrimeDecompositionClient, error)
 }
 
 type calculatorServiceClient struct {
@@ -209,9 +335,42 @@ func (c *calculatorServiceClient) Calculate(ctx context.Context, in *CalculatorR
 	return out, nil
 }
 
+func (c *calculatorServiceClient) PrimeDecomposition(ctx context.Context, in *PrimeDecompositionRequest, opts ...grpc.CallOption) (CalculatorService_PrimeDecompositionClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_CalculatorService_serviceDesc.Streams[0], "/calculator.CalculatorService/PrimeDecomposition", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &calculatorServicePrimeDecompositionClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CalculatorService_PrimeDecompositionClient interface {
+	Recv() (*PrimeDecompositionResponse, error)
+	grpc.ClientStream
+}
+
+type calculatorServicePrimeDecompositionClient struct {
+	grpc.ClientStream
+}
+
+func (x *calculatorServicePrimeDecompositionClient) Recv() (*PrimeDecompositionResponse, error) {
+	m := new(PrimeDecompositionResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // CalculatorServiceServer is the server API for CalculatorService service.
 type CalculatorServiceServer interface {
 	Calculate(context.Context, *CalculatorRequest) (*CalculatorResponse, error)
+	PrimeDecomposition(*PrimeDecompositionRequest, CalculatorService_PrimeDecompositionServer) error
 }
 
 // UnimplementedCalculatorServiceServer can be embedded to have forward compatible implementations.
@@ -220,6 +379,9 @@ type UnimplementedCalculatorServiceServer struct {
 
 func (*UnimplementedCalculatorServiceServer) Calculate(ctx context.Context, req *CalculatorRequest) (*CalculatorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Calculate not implemented")
+}
+func (*UnimplementedCalculatorServiceServer) PrimeDecomposition(req *PrimeDecompositionRequest, srv CalculatorService_PrimeDecompositionServer) error {
+	return status.Errorf(codes.Unimplemented, "method PrimeDecomposition not implemented")
 }
 
 func RegisterCalculatorServiceServer(s *grpc.Server, srv CalculatorServiceServer) {
@@ -244,6 +406,27 @@ func _CalculatorService_Calculate_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CalculatorService_PrimeDecomposition_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(PrimeDecompositionRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CalculatorServiceServer).PrimeDecomposition(m, &calculatorServicePrimeDecompositionServer{stream})
+}
+
+type CalculatorService_PrimeDecompositionServer interface {
+	Send(*PrimeDecompositionResponse) error
+	grpc.ServerStream
+}
+
+type calculatorServicePrimeDecompositionServer struct {
+	grpc.ServerStream
+}
+
+func (x *calculatorServicePrimeDecompositionServer) Send(m *PrimeDecompositionResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 var _CalculatorService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "calculator.CalculatorService",
 	HandlerType: (*CalculatorServiceServer)(nil),
@@ -253,6 +436,12 @@ var _CalculatorService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _CalculatorService_Calculate_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "PrimeDecomposition",
+			Handler:       _CalculatorService_PrimeDecomposition_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "calculator/calculatorpb/calculator.proto",
 }

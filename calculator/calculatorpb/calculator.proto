@@ -8,6 +8,18 @@ message Calculator {
     int32 second_number = 2;
 }
 
+message PrimeNumber {
+    int32 number = 1;
+}
+
+message PrimeDecompositionRequest {
+    PrimeNumber prime_number = 1;
+}
+
+message PrimeDecompositionResponse {
+    int32 factor = 1;
+}
+
 message CalculatorRequest{
     Calculator calculator = 1;
 }
@@ -18,4 +30,5 @@ message CalculatorResponse {
 
 service CalculatorService {
     rpc Calculate(CalculatorRequest) returns (CalculatorResponse) {};
+    rpc PrimeDecomposition(PrimeDecompositionRequest) returns (stream PrimeDecompositionResponse) {};
 }
