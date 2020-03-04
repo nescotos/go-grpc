@@ -10,6 +10,7 @@ import (
 	"github.com/nestor94/grpc-go/calculator/calculatorpb"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/status"
 )
 
 func main() {
@@ -28,7 +29,8 @@ func main() {
 	//doUnary(c)
 	//doStreaming(c)
 	//doClientStreaming(c)
-	doBidirectionalStreaming(c)
+	//doBidirectionalStreaming(c)
+	doErrorUnary(c)
 
 }
 
@@ -167,6 +169,20 @@ func doBidirectionalStreaming(c calculatorpb.CalculatorServiceClient) {
 
 func doErrorUnary(c calculatorpb.CalculatorServiceClient) {
 	fmt.Println("Starting SquareRoot Unary RPC")
-	c.SquareRoot(context.Background*(), &calculatorpb.SquareRootRequest)
+	response, err := c.SquareRoot(context.Background(), &calculatorpb.SquareRootRequest{
+		Number: -25,
+	})
+	if err != nil {
+		respErr, ok := status.FromError(err)
+		if ok {
+			fmt.Println(respErr.Message())
+			fmt.Println(respErr.Code())
+		} else {
+			log.Fatalf("Error %v\n", err)
+		}
+
+	} else {
+		log.Printf("Square root received: %v\n", response.GetNumberRoot())
+	}
 
 }
