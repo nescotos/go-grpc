@@ -87,6 +87,19 @@ func (*server) Maximum(stream calculatorpb.CalculatorService_MaximumServer) erro
 	}
 }
 
+func (*server) SquareRoot (ctx context.Context, req *calculatorpb.SquareRootRequest) (*calcualtor.pbSquareRootResponse, error) {
+	fmt.Println("Received SquaredRoot RPC")
+	number := req.GetNumber()
+	if (number < 0){
+		return nil, status.Errorf(
+			codes.InvalidArgument, 
+			fmt.Sprintf("Negative Number Received: %v", number)
+	}
+	return &calculatorpb.SquareRootResponse{
+		NumberRoot: math.Sqrt(float64(number))
+	}, nil
+}
+
 func main() {
 
 	log.Println("Starting Server at 50051")

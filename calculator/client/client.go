@@ -164,3 +164,9 @@ func doBidirectionalStreaming(c calculatorpb.CalculatorServiceClient) {
 
 	<-waitChannel
 }
+
+func doErrorUnary(c calculatorpb.CalculatorServiceClient) {
+	fmt.Println("Starting SquareRoot Unary RPC")
+	c.SquareRoot(context.Background*(), &calculatorpb.SquareRootRequest)
+
+}

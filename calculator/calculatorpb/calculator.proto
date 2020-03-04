@@ -44,9 +44,19 @@ message MaximumResponse {
     int32 max = 1;
 }
 
+message SquareRootRequest {
+    int32 number = 1;
+}
+
+message SquareRootResponse {
+    double numberRoot = 1;
+}
+
 service CalculatorService {
     rpc Calculate(CalculatorRequest) returns (CalculatorResponse) {};
     rpc PrimeDecomposition(PrimeDecompositionRequest) returns (stream PrimeDecompositionResponse) {};
     rpc Average(stream AverageRequest) returns (AverageResponse) {};
     rpc Maximum(stream MaximumRequest) returns (stream MaximumResponse) {};
+    //If number sent is negative RPC will throw an exception of type INVALID_ARGUMENT
+    rpc SquareRoot(SquareRootRequest) returns (SquareRootResponse) {};
 }
