@@ -59,4 +59,19 @@ func main() {
 
 	log.Printf("There is a Blog: %v\n", result.GetBlog())
 
+	otherBlog := &blogpb.Blog{
+		AuthorId: "Nestor [Updated]",
+		Title:    "My very first post[Updated]",
+		Content:  "This is the content of my blog",
+		Id:       blogID,
+	}
+
+	updateRes, updateErr := c.UpdateBlog(context.Background(), &blogpb.UpdateBlogRequest{Blog: otherBlog})
+
+	if updateErr != nil {
+		fmt.Printf("Error on updating %v\n", updateErr)
+	}
+
+	log.Printf("Blog was updated %v\n", updateRes)
+
 }

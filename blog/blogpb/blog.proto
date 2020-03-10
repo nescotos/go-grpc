@@ -27,10 +27,19 @@ message ReadBlogResponse {
     Blog blog = 1;
 }
 
+message UpdateBlogRequest {
+    Blog blog = 1;
+}
+
+message UpdateBlogResponse {
+    Blog blog = 1;
+}
+
 service BlogService {
     rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse);
     //Return NOT_FOUND error is nothing is being returned
     rpc ReadBlog (ReadBlogRequest) returns (ReadBlogResponse);
+    rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogResponse);
 }
 
 

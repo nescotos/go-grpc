@@ -31,6 +31,15 @@ type blogItem struct {
 	Title    string             `bson:"title"`
 }
 
+func dataToBlog(data *blogItem) *blogpb.Blog {
+	return &blogpb.Blog{
+		Id:       data.ID.Hex(),
+		AuthorId: data.AuthorID,
+		Content:  data.Content,
+		Title:    data.Title,
+	}
+}
+
 func (*server) CreateBlog(ctx context.Context, req *blogpb.CreateBlogRequest) (*blogpb.CreateBlogResponse, error) {
 	blog := req.GetBlog()
 
@@ -65,9 +74,9 @@ func (*server) CreateBlog(ctx context.Context, req *blogpb.CreateBlogRequest) (*
 }
 
 func (*server) ReadBlog(ctx context.Context, req *blogpb.ReadBlogRequest) (*blogpb.ReadBlogResponse, error) {
-	blogId := req.GetBlogId()
+	blogID := req.GetBlogId()
 
-	oid, err := primitive.ObjectIDFromHex(blogId)
+	oid, err := primitive.ObjectIDFromHex(blogID)
 
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Cannot parse ID"))
@@ -84,13 +93,38 @@ func (*server) ReadBlog(ctx context.Context, req *blogpb.ReadBlogRequest) (*blog
 		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Unable to find blog with that id %v", err))
 	}
 	return &blogpb.ReadBlogResponse{
-		Blog: &blogpb.Blog{
-			Id:       data.ID.Hex(),
-			AuthorId: data.AuthorID,
-			Content:  data.Content,
-			Title:    data.Title,
-		},
+		Blog: dataToBlog(data),
 	}, nil
+}
+
+func (*server) UpdateBlog(ctx context.Context, req *blogpb.UpdateBlogRequest) (*blogpb.UpdateBlogResponse, error) {
+	blog := req.GetBlog()
+	oid, err := primitive.ObjectIDFromHex(blog.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Unable to parse ID"))
+	}
+	data := &blogItem{}
+	filter := bson.M{
+		"_id": oid,
+	}
+	result := collection.FindOne(context.Background(), filter)
+	if err := result.Decode(data); err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Unable to find blog with that id %v", err))
+	}
+
+	data.AuthorID = blog.GetAuthorId()
+	data.Content = blog.GetContent()
+	data.Title = blog.GetTitle()
+
+	_, updatedError := collection.ReplaceOne(context.Background(), filter, data)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, fmt.Sprintf("Unable to update on database %v\n", updatedError))
+	}
+
+	return &blogpb.UpdateBlogResponse{
+		Blog: dataToBlog(data),
+	}, nil
+
 }
 
 func main() {
