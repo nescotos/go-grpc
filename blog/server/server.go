@@ -117,7 +117,7 @@ func (*server) UpdateBlog(ctx context.Context, req *blogpb.UpdateBlogRequest) (*
 	data.Title = blog.GetTitle()
 
 	_, updatedError := collection.ReplaceOne(context.Background(), filter, data)
-	if err != nil {
+	if updatedError != nil {
 		return nil, status.Errorf(codes.Internal, fmt.Sprintf("Unable to update on database %v\n", updatedError))
 	}
 
@@ -125,6 +125,28 @@ func (*server) UpdateBlog(ctx context.Context, req *blogpb.UpdateBlogRequest) (*
 		Blog: dataToBlog(data),
 	}, nil
 
+}
+
+func (*server) DeleteBlog(ctx context.Context, req *blogpb.DeleteBlogRequest) (*blogpb.DeleteBlogResponse, error) {
+	oid, err := primitive.ObjectIDFromHex(req.GetBlogId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Unable to parse ID"))
+	}
+	filter := bson.M{
+		"_id": oid,
+	}
+
+	res, err := collection.DeleteOne(context.Background(), filter)
+
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, fmt.Sprintf("Unable to delete on database %v\n", err))
+	}
+
+	if res.DeletedCount == 0 {
+		return nil, status.Error(codes.NotFound, fmt.Sprintf("Blog not found"))
+	}
+
+	return &blogpb.DeleteBlogResponse{BlogId: req.GetBlogId()}, nil
 }
 
 func main() {

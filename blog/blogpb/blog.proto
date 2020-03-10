@@ -35,11 +35,20 @@ message UpdateBlogResponse {
     Blog blog = 1;
 }
 
+message DeleteBlogRequest {
+    string blog_id = 1;
+}
+
+message DeleteBlogResponse {
+    string blog_id = 1;
+}
+
 service BlogService {
     rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse);
     //Return NOT_FOUND error is nothing is being returned
     rpc ReadBlog (ReadBlogRequest) returns (ReadBlogResponse);
     rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogResponse);
+    rpc DeleteBlog (DeleteBlogRequest) returns (DeleteBlogResponse);
 }
 
 
