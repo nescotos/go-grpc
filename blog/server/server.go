@@ -149,6 +149,29 @@ func (*server) DeleteBlog(ctx context.Context, req *blogpb.DeleteBlogRequest) (*
 	return &blogpb.DeleteBlogResponse{BlogId: req.GetBlogId()}, nil
 }
 
+func (*server) ListBlog(req *blogpb.ListBlogRequest, stream blogpb.BlogService_ListBlogServer) error {
+	cur, err := collection.Find(context.Background(), bson.D{{}})
+	if err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Internal Error %v\n", err))
+	}
+
+	defer cur.Close(context.Background())
+
+	for cur.Next(context.Background()) {
+		data := &blogItem{}
+		err := cur.Decode(data)
+		if err != nil {
+			return status.Errorf(codes.Internal, fmt.Sprintf("Error While Decoding Data %v\n", err))
+		}
+		stream.Send(&blogpb.ListBlogResponse{Blog: dataToBlog(data)})
+	}
+
+	if err := cur.Err(); err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Error While Decoding Data %v\n", err))
+	}
+	return nil
+}
+
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.Println("[*] Blog Service Starting")

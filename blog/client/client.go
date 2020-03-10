@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 
 	"github.com/nestor94/grpc-go/blog/blogpb"
@@ -10,6 +11,7 @@ import (
 )
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.Println("[*] Starting Blog Client")
 
 	opts := grpc.WithInsecure()
@@ -81,5 +83,25 @@ func main() {
 	}
 
 	log.Printf("Blog was deleted %v\n", deleteRes)
+
+	stream, errorStream := c.ListBlog(context.Background(), &blogpb.ListBlogRequest{})
+
+	if errorStream != nil {
+		log.Fatalf("Error while Streaming Blogs %v\n", errorStream)
+	}
+
+	for {
+		res, err := stream.Recv()
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			log.Fatalf("There was an error %v\n", err)
+		}
+
+		log.Printf("Blog Received %v\n", res.GetBlog())
+	}
 
 }
